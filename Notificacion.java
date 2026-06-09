@@ -1,4 +1,3 @@
-package ProyectoFinal;
 
 public class Notificacion {
     private int idNotificacion;

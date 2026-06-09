@@ -1,4 +1,3 @@
-package ProyectoFinal;
 
 public class TipoSolicitud {
     private int idTipoSolicitud;

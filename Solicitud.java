@@ -1,5 +1,3 @@
-package ProyectoFinal;
-
 public class Solicitud {
     private int idSolicitud;
     private Usuario usuario;
