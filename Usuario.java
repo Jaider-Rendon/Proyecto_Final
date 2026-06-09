@@ -17,21 +17,33 @@ public class Usuario {
         }
 
         public Builder id(int id) {
+            if (id <= 0) {
+                throw new IllegalArgumentException("El id debe ser mayor a 0");
+            }
             usuario.id = id;
             return this;
         }
 
         public Builder nombre(String nombre) {
+            if (nombre == null || nombre.isEmpty()) {
+                throw new IllegalArgumentException("El nombre no puede ser nulo o estar vacio");
+            }
             usuario.nombre = nombre;
             return this;
         }
 
         public Builder correo(String correo) {
+            if (correo == null || correo.isEmpty()) {
+                throw new IllegalArgumentException("El correo no puede ser nulo o estar vacio");
+            }
             usuario.correo = correo;
             return this;
         }
 
         public Builder rol(String rol) {
+            if (rol == null || rol.isEmpty()) {
+                throw new IllegalArgumentException("El rol no puede ser nulo o estar vacio");
+            }
             usuario.rol = rol;
             return this;
         }
