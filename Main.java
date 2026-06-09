@@ -1,8 +1,41 @@
 public class Main {
     public static void main(String[] args) {
+
+        Usuario usuario = new Usuario.Builder()
+                .nombre("Bernardo")
+                .correo("Bernardo@gamil.com")
+                .rol("usuario").build();
+
         UsuarioRepositorio usuarioRepositorio = new UsuarioRepositoryPotgrets();
         UsuarioComandService usuarioComandService = new UsuarioComandService(usuarioRepositorio);
-        usuarioComandService.Registrar("Juan", "juan@gmial.com", "ADMIN");
-        
+        usuarioComandService.Registrar(usuario);
+
+        TipoSolicitudRepository tipoSolicitudRepository = new TipoSolicitudRepositoryPostgrees();
+        TipoSolicitudComandServise tipoSolicitudComandServise = new TipoSolicitudComandServise(tipoSolicitudRepository);
+
+        /*
+         * TipoSolicitud tipoSolicitud2 = new TipoSolicitud.Builder()
+         * .nombre("Solicitud de cambio de correo")
+         * .descripcion("Solicitud de cambio de correo")
+         * .tiempoEstimadoDias(1)
+         * .build();
+         * 
+         * tipoSolicitudComandServise.crearTipoSolicitud(tipoSolicitud2);
+         * 
+         */
+        SolicitudRepository solicitudRepository = new SolicitudRepositoryPostgrees();
+        SolicitudComandServise solicitudComandServise = new SolicitudComandServise(solicitudRepository);
+
+        Usuario usuario1 = usuarioComandService.buscarPorIdUsuario(4);
+        TipoSolicitud tipoSolicitud = tipoSolicitudComandServise.buscarPorIdTipoSolicitud(2);
+        Solicitud solicitud = new Solicitud.Builder()
+                .usuario(usuario1)
+                .tipoSolicitud(tipoSolicitud)
+                .descripcion("Solicitud de cambio de contraseña")
+                .fechaCreacion("2022-01-01")
+                .estado("Pendiente")
+                .build();
+
+        solicitudComandServise.crearSolicitud(solicitud);
     }
 }
