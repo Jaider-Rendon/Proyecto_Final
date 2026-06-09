@@ -21,4 +21,26 @@ public class UsuarioRepositoryPotgrets implements UsuarioRepositorio {
         }
     }
 
+    @Override
+    public Usuario buscarPorIdUsuario(int id) {
+        String sql = "SELECT * FROM usuario WHERE id = ?";
+
+        try (Connection connetConnection = ConexionSQL.obtenerConexion();
+                PreparedStatement statement = connetConnection.prepareStatement(sql)) {
+            statement.setInt(1, id);
+            java.sql.ResultSet resultado = statement.executeQuery();
+            if (resultado.next()) {
+                return new Usuario.Builder()
+                        .id(resultado.getInt("id"))
+                        .nombre(resultado.getString("nombre"))
+                        .correo(resultado.getString("correo"))
+                        .rol(resultado.getString("rol"))
+                        .build();
+            }
+        } catch (Exception e) {
+            System.out.println("Error al buscar usuario: " + e.getMessage());
+        }
+        return null;
+    }
+
 }

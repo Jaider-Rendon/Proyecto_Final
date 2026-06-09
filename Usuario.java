@@ -68,4 +68,9 @@ public class Usuario {
         return rol;
     }
 
+    @Override
+    public String toString() {
+        return "Usuario [id=" + id + ", nombre=" + nombre + ", correo=" + correo + ", rol=" + rol + "]";
+    }
+
 }

@@ -21,6 +21,9 @@ public class TipoSolicitud {
         }
 
         public Builder nombre(String nombre) {
+            if (nombre == null || nombre.isEmpty()) {
+                throw new IllegalArgumentException("El nombre no puede ser nulo o estar vacio");
+            }
             tipoSolicitud.nombre = nombre;
             return this;
         }
@@ -31,6 +34,9 @@ public class TipoSolicitud {
         }
 
         public Builder tiempoEstimadoDias(int tiempoEstimadoDias) {
+            if (tiempoEstimadoDias < 1) {
+                throw new IllegalArgumentException("El tiempo estimado debe ser mayor o igual a 1");
+            }
             tipoSolicitud.tiempoEstimadoDias = tiempoEstimadoDias;
             return this;
         }
@@ -55,6 +61,12 @@ public class TipoSolicitud {
 
     public int getTiempoEstimadoDias() {
         return tiempoEstimadoDias;
+    }
+
+    @Override
+    public String toString() {
+        return "TipoSolicitud [idTipoSolicitud=" + idTipoSolicitud + ", nombre=" + nombre + ", descripcion="
+                + descripcion + ", tiempoEstimadoDias=" + tiempoEstimadoDias + "]";
     }
 
 }
