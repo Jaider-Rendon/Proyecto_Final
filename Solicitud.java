@@ -22,11 +22,17 @@ public class Solicitud {
         }
 
         public Builder usuario(Usuario usuario) {
+            if (usuario == null) {
+                throw new IllegalArgumentException("El usuario no puede ser nulo");
+            }
             solicitud.usuario = usuario;
             return this;
         }
 
         public Builder tipoSolicitud(TipoSolicitud tipoSolicitud) {
+            if (tipoSolicitud == null) {
+                throw new IllegalArgumentException("El tipo de solicitud no puede ser nulo");
+            }
             solicitud.tipoSolicitud = tipoSolicitud;
             return this;
         }

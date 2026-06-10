@@ -6,11 +6,8 @@ public class UsuarioComandService {
         this.usuarioRepositorio = usuarioRepositorio;
     }
 
-    public void Registrar(String nombre, String correo, String rol) {
-        if (nombre == null || nombre.isEmpty()) {
-            throw new IllegalArgumentException("El nombre no puede ser nulo o vacio");
-        }
-        Usuario usuario = new Usuario.Builder().nombre(nombre).correo(correo).rol(rol).build();
+    public void Registrar(Usuario usuario) {
         usuarioRepositorio.registrarUsuario(usuario);
     }
+
 }
