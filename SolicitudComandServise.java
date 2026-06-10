@@ -9,4 +9,8 @@ public class SolicitudComandServise {
     public void crearSolicitud(Solicitud solicitud) {
         solicitudRepository.crearSolicitud(solicitud);
     }
+
+    public void cambiarEstado(int idSolicitud, String estado) {
+        solicitudRepository.cambiarEstado(idSolicitud, estado);
+    }
 }

@@ -82,4 +82,10 @@ public class Solicitud {
         return estado;
     }
 
+    @Override
+    public String toString() {
+        return "Solicitud [idSolicitud=" + idSolicitud + ", usuario=" + usuario.getId() + ", tipoSolicitud="
+                + tipoSolicitud.getIdTipoSolicitud() + ", descripcion=" + descripcion + ", fechaCreacion="
+                + fechaCreacion + ", estado=" + estado + "]";
+    }
 }

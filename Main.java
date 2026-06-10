@@ -30,7 +30,7 @@ public class Main {
                 Usuario usuario = new Usuario.Builder()
                                 .nombre(nombre)
                                 .correo(correo)
-                                .rol(rol)
+                                .rol(rol.toUpperCase())
                                 .build();
 
                 usuarioComandService.Registrar(usuario);
@@ -77,10 +77,28 @@ public class Main {
                                 .tipoSolicitud(tipoSolicitudBuscado)
                                 .descripcion(solicitudDescripcion)
                                 .fechaCreacion(fecha)
-                                .estado(estado)
+                                .estado(estado.toUpperCase())
                                 .build();
 
                 solicitudComandServise.crearSolicitud(solicitud);
+
+                System.out.println("\n=== Cambiar Estado de Solicitud ===");
+                System.out.print("ID de la solicitud: ");
+                int idSolicitud = Integer.parseInt(scanner.nextLine());
+                System.out.print("Nuevo estado(CREADA / EN_REVISION / APROBADA / RECHAZADA / RESUELTA): ");
+                String nuevoEstado = scanner.nextLine();
+                solicitudComandServise.cambiarEstado(idSolicitud, nuevoEstado.toUpperCase());
+
+                System.out.println("\n=== Buscar Solicitud por Estado ===");
+                System.out.print("Estado: ");
+                String estadoBuscado = scanner.nextLine();
+                SolicitudQueryServise solicitudQueryServise = new SolicitudQueryServise(solicitudRepository);
+                solicitudQueryServise.buscarPorEstado(estadoBuscado.toUpperCase());
+
+                System.out.println("\n=== Reporte por Tipo de Solicitud ===");
+                System.out.print("ID del tipo de solicitud: ");
+                int idTipo2 = Integer.parseInt(scanner.nextLine());
+                solicitudQueryServise.reportePorTipo(idTipo2);
 
                 scanner.close();
                 System.out.println("\n Solicitud creada exitosamente.");

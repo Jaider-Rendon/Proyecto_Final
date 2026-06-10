@@ -14,11 +14,15 @@ public class UsuarioRepositoryPotgrets implements UsuarioRepositorio {
             statement.setString(2, usuario.getCorreo());
             statement.setString(3, usuario.getRol());
             statement.executeUpdate();
-            System.out.println("Usuario registrado exitosamente");
+            NotificionesRepository notificionesRepository = new NotificacionRepositoryPostgrees();
+            NotificacionesComandServise notificacionesComandServise = new NotificacionesComandServise(
+                    notificionesRepository);
+            notificacionesComandServise.enviarNotificacion("USUARIO");
 
         } catch (Exception e) {
             System.out.println("Error al guardar usuario: " + e.getMessage());
         }
+
     }
 
     @Override

@@ -36,7 +36,10 @@ public class TipoSolicitudRepositoryPostgrees implements TipoSolicitudRepository
             statement.setString(2, tipoSolicitud.getDescripcion());
             statement.setInt(3, tipoSolicitud.getTiempoEstimadoDias());
             statement.executeUpdate();
-            System.out.println("Tipo de solicitud creado exitosamente");
+            NotificionesRepository notificionesRepository = new NotificacionRepositoryPostgrees();
+            NotificacionesComandServise notificacionesComandServise = new NotificacionesComandServise(
+                    notificionesRepository);
+            notificacionesComandServise.enviarNotificacion("TIPOSOLICITUD");
 
         } catch (Exception e) {
             System.out.println("Error al crear tipo de solicitud: " + e.getMessage());
