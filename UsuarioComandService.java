@@ -10,8 +10,4 @@ public class UsuarioComandService {
         usuarioRepositorio.registrarUsuario(usuario);
     }
 
-    public Usuario buscarPorIdUsuario(int id) {
-        return usuarioRepositorio.buscarPorIdUsuario(id);
-    }
-
 }

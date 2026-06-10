@@ -5,12 +5,11 @@ public class SolicitudRepositoryPostgrees implements SolicitudRepository {
 
     @Override
     public void crearSolicitud(Solicitud solicitud) {
-        String sql = "INSERT INTO solicitud(idSolicitud, idUsuario, idTipoSolicitud, descripcion, fechaCreacion, estado) VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO solicitud(idUsuario, idTipoSolicitud, descripcion, fechaCreacion, estado) VALUES (?, ?, ?, ?, ?)";
 
         try (Connection connetConnection = ConexionSQL.obtenerConexion();
                 PreparedStatement statement = connetConnection.prepareStatement(sql)) {
 
-            statement.setInt(1, solicitud.getIdSolicitud());
             statement.setInt(2, solicitud.getUsuario().getId());
             statement.setInt(3, solicitud.getTipoSolicitud().getIdTipoSolicitud());
             statement.setString(4, solicitud.getDescripcion());
