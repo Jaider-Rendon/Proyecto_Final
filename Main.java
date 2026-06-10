@@ -25,9 +25,11 @@ public class Main {
          */
         SolicitudRepository solicitudRepository = new SolicitudRepositoryPostgrees();
         SolicitudComandServise solicitudComandServise = new SolicitudComandServise(solicitudRepository);
+        UsuarioQueryServise usuarioQueryServise = new UsuarioQueryServise(usuarioRepositorio);
+        TipoSolicitudQueryServise tipoSolicitudQueryServise = new TipoSolicitudQueryServise(tipoSolicitudRepository);
 
-        Usuario usuario1 = usuarioComandService.buscarPorIdUsuario(4);
-        TipoSolicitud tipoSolicitud = tipoSolicitudComandServise.buscarPorIdTipoSolicitud(2);
+        Usuario usuario1 = usuarioQueryServise.buscarPorIdUsuario(4);
+        TipoSolicitud tipoSolicitud = tipoSolicitudQueryServise.buscarPorIdTipoSolicitud(2);
         Solicitud solicitud = new Solicitud.Builder()
                 .usuario(usuario1)
                 .tipoSolicitud(tipoSolicitud)
