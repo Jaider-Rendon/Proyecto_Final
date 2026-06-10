@@ -10,11 +10,11 @@ public class SolicitudRepositoryPostgrees implements SolicitudRepository {
         try (Connection connetConnection = ConexionSQL.obtenerConexion();
                 PreparedStatement statement = connetConnection.prepareStatement(sql)) {
 
-            statement.setInt(2, solicitud.getUsuario().getId());
-            statement.setInt(3, solicitud.getTipoSolicitud().getIdTipoSolicitud());
-            statement.setString(4, solicitud.getDescripcion());
-            statement.setString(5, solicitud.getFechaCreacion());
-            statement.setString(6, solicitud.getEstado());
+            statement.setInt(1, solicitud.getUsuario().getId());
+            statement.setInt(2, solicitud.getTipoSolicitud().getIdTipoSolicitud());
+            statement.setString(3, solicitud.getDescripcion());
+            statement.setString(4, solicitud.getFechaCreacion());
+            statement.setString(5, solicitud.getEstado());
             statement.executeUpdate();
             System.out.println("Solicitud creada exitosamente");
 
