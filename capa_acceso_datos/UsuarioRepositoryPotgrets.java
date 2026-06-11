@@ -10,6 +10,7 @@ public class UsuarioRepositoryPotgrets implements UsuarioRepositorio {
 
     @Override
     public void registrarUsuario(Usuario usuario) {
+
         String sql = "INSERT INTO usuario(id,nombre, correo, rol) VALUES (?, ?, ?, ?)";
 
         try (Connection connetConnection = ConexionSQL.obtenerConexion();
