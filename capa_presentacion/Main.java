@@ -39,6 +39,8 @@ public class Main {
 
                 int opcion;
 
+
+
                 do {
                         System.out.println("\n========== MENÚ PRINCIPAL ==========");
                         System.out.println("1. Registrar Usuario");
@@ -67,12 +69,14 @@ public class Main {
                                         System.out.print("Rol (SOLICITANTE / FUNCIONARIO): ");
                                         String rol = scanner.nextLine();
 
+
                                         Usuario usuario = new Usuario.Builder()
                                                         .id(id)
                                                         .nombre(nombre)
                                                         .correo(correo)
                                                         .rol(rol.toUpperCase())
                                                         .build();
+
 
                                         usuarioComandService.Registrar(usuario);
                                         break;
@@ -85,6 +89,7 @@ public class Main {
                                         System.out.print("Descripción: ");
                                         String tipoDescripcion = scanner.nextLine();
 
+
                                         System.out.print("Tiempo estimado (días): ");
                                         int tiempoEstimado = Integer.parseInt(scanner.nextLine());
 
@@ -93,7 +98,6 @@ public class Main {
                                                         .descripcion(tipoDescripcion)
                                                         .tiempoEstimadoDias(tiempoEstimado)
                                                         .build();
-
                                         tipoSolicitudComandServise.crearTipoSolicitud(tipoSolicitud);
                                         break;
 
@@ -102,11 +106,13 @@ public class Main {
                                         System.out.print("ID del usuario: ");
                                         int idUsuario = Integer.parseInt(scanner.nextLine());
 
+
                                         System.out.print("ID del tipo de solicitud: ");
                                         int idTipo = Integer.parseInt(scanner.nextLine());
 
                                         System.out.print("Descripción de la solicitud: ");
                                         String solicitudDescripcion = scanner.nextLine();
+
 
                                         System.out.print("Fecha de creación (DD-MM-YYYY): ");
                                         String fecha = scanner.nextLine();
@@ -118,6 +124,7 @@ public class Main {
                                         Usuario usuarioBuscado = usuarioQueryServise.buscarPorIdUsuario(idUsuario);
                                         TipoSolicitud tipoSolicitudBuscado = tipoSolicitudQueryServise
                                                         .buscarPorIdTipoSolicitud(idTipo);
+
 
                                         Solicitud solicitud = new Solicitud.Builder()
                                                         .usuario(usuarioBuscado)
