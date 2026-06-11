@@ -2,8 +2,8 @@ public class Main {
         public static void main(String[] args) {
 
                 Usuario usuario = new Usuario.Builder()
-                                .nombre("Bernardo")
-                                .correo("peneth@gamil.com")
+                                .nombre("jaider")
+                                .correo("jaider12@gamil.com")
                                 .rol("usuario").build();
 
                 UsuarioRepositorio usuarioRepositorio = new UsuarioRepositoryPotgrets();
@@ -14,24 +14,22 @@ public class Main {
                 TipoSolicitudComandServise tipoSolicitudComandServise = new TipoSolicitudComandServise(
                                 tipoSolicitudRepository);
 
-                /*
-                 * TipoSolicitud tipoSolicitud2 = new TipoSolicitud.Builder()
-                 * .nombre("Solicitud de cambio de correo")
-                 * .descripcion("Solicitud de cambio de correo")
-                 * .tiempoEstimadoDias(1)
-                 * .build();
-                 * 
-                 * tipoSolicitudComandServise.crearTipoSolicitud(tipoSolicitud2);
-                 * 
-                 */
+                TipoSolicitud tipoSolicitud2 = new TipoSolicitud.Builder()
+                                .nombre("Solicitud de cambio de correo")
+                                .descripcion("Solicitud de cambio de correo")
+                                .tiempoEstimadoDias(1)
+                                .build();
+
+                tipoSolicitudComandServise.crearTipoSolicitud(tipoSolicitud2);
+
                 SolicitudRepository solicitudRepository = new SolicitudRepositoryPostgrees();
                 SolicitudComandServise solicitudComandServise = new SolicitudComandServise(solicitudRepository);
                 UsuarioQueryServise usuarioQueryServise = new UsuarioQueryServise(usuarioRepositorio);
                 TipoSolicitudQueryServise tipoSolicitudQueryServise = new TipoSolicitudQueryServise(
                                 tipoSolicitudRepository);
 
-                Usuario usuario1 = usuarioQueryServise.buscarPorIdUsuario(4);
-                TipoSolicitud tipoSolicitud = tipoSolicitudQueryServise.buscarPorIdTipoSolicitud(2);
+                Usuario usuario1 = usuarioQueryServise.buscarPorIdUsuario(1);
+                TipoSolicitud tipoSolicitud = tipoSolicitudQueryServise.buscarPorIdTipoSolicitud(1);
                 Solicitud solicitud = new Solicitud.Builder()
                                 .usuario(usuario1)
                                 .tipoSolicitud(tipoSolicitud)
