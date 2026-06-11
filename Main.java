@@ -15,6 +15,7 @@ public class Main {
                                 tipoSolicitudRepository);
 
                 SolicitudRepository solicitudRepository = new SolicitudRepositoryPostgrees();
+
                 SolicitudComandServise solicitudComandServise = new SolicitudComandServise(solicitudRepository);
 
                 System.out.println("=== Registrar Usuario ===");
