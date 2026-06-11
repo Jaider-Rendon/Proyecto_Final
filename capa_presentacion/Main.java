@@ -38,10 +38,85 @@ public class Main {
                 SolicitudQueryServise solicitudQueryServise = new SolicitudQueryServise(solicitudRepository);
 
                 int opcion;
+                System.out.println("\n=== Bienvenido al sistema de gestión de solicitudes ===");
+                System.out.print("Digite su id:  ");
+                int idValidacion = Integer.parseInt(scanner.nextLine());
+                Usuario usuarioValidacion = usuarioQueryServise.buscarPorIdUsuario(idValidacion);
+                if (usuarioValidacion.getRol().equals("SOLICITANTE")) {
+                        do{
+                                System.out.println("\n========== MENÚ PRINCIPAL ==========");
+                                System.out.println("1. Registrar usuario");
+                                System.out.println("2. Crear Solicitud");
+                                System.out.println("0. Salir");
+                                System.out.print("Seleccione una opción: ");
+                                opcion = Integer.parseInt(scanner.nextLine());
+                                switch (opcion) {
+                                        case 1:
+                                                System.out.println("\n=== Registrar Usuario ===");
+                                                System.out.print("Nombre: ");
+                                                String nombre = scanner.nextLine();
+
+                                                System.out.print("ID: ");
+                                                int id = Integer.parseInt(scanner.nextLine());
+
+                                                System.out.print("Correo: ");
+                                                String correo = scanner.nextLine();
+
+                                                System.out.print("Rol (SOLICITANTE / FUNCIONARIO): ");
+                                                String rol = scanner.nextLine();
 
 
+                                                Usuario usuario = new Usuario.Builder()
+                                                                .id(id)
+                                                                .nombre(nombre)
+                                                                .correo(correo)
+                                                                .rol(rol.toUpperCase())
+                                                                .build();
 
-                do {
+
+                                                usuarioComandService.Registrar(usuario);
+                                                break;
+
+                                        case 2:
+                                               System.out.println("\n=== Crear Solicitud ===");
+                                        System.out.print("ID del usuario: ");
+                                        int idUsuario = Integer.parseInt(scanner.nextLine());
+
+
+                                        System.out.print("ID del tipo de solicitud: ");
+                                        int idTipo = Integer.parseInt(scanner.nextLine());
+
+                                        System.out.print("Descripción de la solicitud: ");
+                                        String solicitudDescripcion = scanner.nextLine();
+
+
+                                        System.out.print("Fecha de creación (DD-MM-YYYY): ");
+                                        String fecha = scanner.nextLine();
+
+                                        System.out.print(
+                                                        "Estado (CREADA / EN_REVISION / APROBADA / RECHAZADA / RESUELTA): ");
+                                        String estado = scanner.nextLine();
+
+                                        Usuario usuarioBuscado = usuarioQueryServise.buscarPorIdUsuario(idUsuario);
+                                        TipoSolicitud tipoSolicitudBuscado = tipoSolicitudQueryServise
+                                                        .buscarPorIdTipoSolicitud(idTipo);
+
+
+                                        Solicitud solicitud = new Solicitud.Builder()
+                                                        .usuario(usuarioBuscado)
+                                                        .tipoSolicitud(tipoSolicitudBuscado)
+                                                        .descripcion(solicitudDescripcion)
+                                                        .fechaCreacion(fecha)
+                                                        .estado(estado.toUpperCase())
+                                                        .build();
+
+                                        solicitudComandServise.crearSolicitud(solicitud);
+                                        break;
+                                }
+                        } while (opcion != 0);
+
+                } else if (usuarioValidacion.getRol().equals("FUNCIONARIO")) {
+                    do {
                         System.out.println("\n========== MENÚ PRINCIPAL ==========");
                         System.out.println("1. Registrar Usuario");
                         System.out.println("2. Crear Tipo de Solicitud");
@@ -178,4 +253,5 @@ public class Main {
                 scanner.close();
 
         }
+}
 }
