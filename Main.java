@@ -11,6 +11,7 @@ public class Main {
                 usuarioComandService.Registrar(usuario);
 
                 TipoSolicitudRepository tipoSolicitudRepository = new TipoSolicitudRepositoryPostgrees();
+
                 TipoSolicitudComandServise tipoSolicitudComandServise = new TipoSolicitudComandServise(
                                 tipoSolicitudRepository);
 
