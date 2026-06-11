@@ -1,3 +1,7 @@
+package capa_acceso_datos;
+
+import capa_negocio.Solicitud;
+
 public interface SolicitudRepository {
 
     void crearSolicitud(Solicitud solicitud);

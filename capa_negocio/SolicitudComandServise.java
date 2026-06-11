@@ -1,3 +1,7 @@
+package capa_negocio;
+
+import capa_acceso_datos.SolicitudRepository;
+
 public class SolicitudComandServise {
 
     private final SolicitudRepository solicitudRepository;
@@ -13,4 +17,5 @@ public class SolicitudComandServise {
     public void cambiarEstado(int idSolicitud, String estado) {
         solicitudRepository.cambiarEstado(idSolicitud, estado);
     }
+
 }

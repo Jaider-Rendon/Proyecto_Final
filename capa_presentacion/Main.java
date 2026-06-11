@@ -1,4 +1,23 @@
+package capa_presentacion;
+
+import capa_negocio.Usuario;
+import capa_negocio.TipoSolicitud;
+import capa_negocio.Solicitud;
+import capa_negocio.UsuarioComandService;
+import capa_negocio.UsuarioQueryServise;
+import capa_negocio.SolicitudComandServise;
+import capa_negocio.SolicitudQueryServise;
+import capa_negocio.TipoSolicitudComandServise;
+import capa_negocio.TipoSolicitudQueryServise;
+
 import java.util.Scanner;
+
+import capa_acceso_datos.UsuarioRepositorio;
+import capa_acceso_datos.UsuarioRepositoryPotgrets;
+import capa_acceso_datos.TipoSolicitudRepository;
+import capa_acceso_datos.TipoSolicitudRepositoryPostgrees;
+import capa_acceso_datos.SolicitudRepository;
+import capa_acceso_datos.SolicitudRepositoryPostgrees;
 
 public class Main {
         public static void main(String[] args) {

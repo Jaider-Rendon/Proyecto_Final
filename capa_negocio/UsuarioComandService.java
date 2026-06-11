@@ -1,3 +1,7 @@
+package capa_negocio;
+
+import capa_acceso_datos.UsuarioRepositorio;
+
 public class UsuarioComandService {
 
     private final UsuarioRepositorio usuarioRepositorio;

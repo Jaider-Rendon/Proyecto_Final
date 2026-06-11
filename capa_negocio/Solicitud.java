@@ -1,3 +1,5 @@
+package capa_negocio;
+
 public class Solicitud {
     private int idSolicitud;
     private Usuario usuario;

@@ -1,3 +1,7 @@
+package capa_negocio;
+
+import capa_acceso_datos.NotificionesRepository;
+
 public class NotificacionesComandServise {
 
     private final NotificionesRepository notificionesRepository;
