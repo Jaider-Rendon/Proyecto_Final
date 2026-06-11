@@ -1,3 +1,4 @@
+package capa_negocio;
 
 public class TipoSolicitud {
     private int idTipoSolicitud;

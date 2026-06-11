@@ -1,3 +1,5 @@
+package capa_acceso_datos;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.time.LocalDateTime;

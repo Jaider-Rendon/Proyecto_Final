@@ -1,3 +1,7 @@
+package capa_acceso_datos;
+
+import capa_negocio.NotificacionesComandServise;
+import capa_negocio.TipoSolicitud;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 

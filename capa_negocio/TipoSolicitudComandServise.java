@@ -1,3 +1,7 @@
+package capa_negocio;
+
+import capa_acceso_datos.TipoSolicitudRepository;
+
 public class TipoSolicitudComandServise {
 
     private final TipoSolicitudRepository tipoSolicitudRepository;

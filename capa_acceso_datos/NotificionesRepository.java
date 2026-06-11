@@ -1,3 +1,6 @@
+
+package capa_acceso_datos;
+
 public interface NotificionesRepository {
 
     void enviarNotificacion(String tipo);

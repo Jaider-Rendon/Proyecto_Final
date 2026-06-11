@@ -1,3 +1,5 @@
+package capa_negocio;
+
 public class Usuario {
     private int id;
     private String nombre;
