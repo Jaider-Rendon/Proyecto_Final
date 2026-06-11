@@ -8,4 +8,6 @@ public interface TipoSolicitudRepository {
 
     void crearTipoSolicitud(TipoSolicitud tipoSolicitud);
 
+    boolean buscarPorNombreTipoSolicitud(String nombre);
+
 }

@@ -12,4 +12,6 @@ public interface SolicitudRepository {
 
     void reportePorTipo(int idUsuario);
 
+    Solicitud buscarPorIdSolicitud(int id);
+
 }

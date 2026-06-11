@@ -18,7 +18,7 @@ public class TipoSolicitudRepositoryPostgrees implements TipoSolicitudRepository
             if (resultado.next()) {
                 return new TipoSolicitud.Builder()
                         .idTipoSolicitud(resultado.getInt("idTipoSolicitud"))
-                        .nombre(resultado.getString("nombre"))
+                        .nombre(resultado.getString("nombretipo"))
                         .descripcion(resultado.getString("descripcion"))
                         .tiempoEstimadoDias(resultado.getInt("tiempoEstimadoDias"))
                         .build();
@@ -31,10 +31,14 @@ public class TipoSolicitudRepositoryPostgrees implements TipoSolicitudRepository
 
     @Override
     public void crearTipoSolicitud(TipoSolicitud tipoSolicitud) {
-        String sql = "INSERT INTO tipoSolicitud(nombre, descripcion, tiempoEstimadoDias) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO tipoSolicitud(nombretipo, descripcion, tiempoEstimadoDias) VALUES (?, ?, ?)";
 
         try (Connection connetConnection = ConexionSQL.obtenerConexion();
                 PreparedStatement statement = connetConnection.prepareStatement(sql)) {
+
+            if (buscarPorNombreTipoSolicitud(tipoSolicitud.getNombre()) == true) {
+                throw new IllegalArgumentException("El tipo de solicitud " + tipoSolicitud.getNombre() + " ya existe");
+            }
 
             statement.setString(1, tipoSolicitud.getNombre());
             statement.setString(2, tipoSolicitud.getDescripcion());
@@ -48,6 +52,22 @@ public class TipoSolicitudRepositoryPostgrees implements TipoSolicitudRepository
         } catch (Exception e) {
             System.out.println("Error al crear tipo de solicitud: " + e.getMessage());
         }
+    }
+
+    @Override
+    public boolean buscarPorNombreTipoSolicitud(String nombre) {
+        String sql = "SELECT * FROM tipoSolicitud WHERE nombretipo = ?";
+        try (Connection connetConnection = ConexionSQL.obtenerConexion();
+                PreparedStatement statement = connetConnection.prepareStatement(sql)) {
+            statement.setString(1, nombre);
+            java.sql.ResultSet resultado = statement.executeQuery();
+            if (resultado.next()) {
+                return true;
+            }
+        } catch (Exception e) {
+            System.out.println("Error al buscar tipo de solicitud: " + e.getMessage());
+        }
+        return false;
     }
 
 }
