@@ -50,6 +50,7 @@ public class UsuarioRepositoryPotgrets implements UsuarioRepositorio {
                         .rol(resultado.getString("rol"))
                         .build();
             }
+
         } catch (Exception e) {
             System.out.println("Error al buscar usuario: " + e.getMessage());
         }

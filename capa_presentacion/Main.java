@@ -40,218 +40,186 @@ public class Main {
                 int opcion;
                 System.out.println("\n=== Bienvenido al sistema de gestión de solicitudes ===");
                 System.out.print("Digite su id:  ");
-                int idValidacion = Integer.parseInt(scanner.nextLine());
+                int idValidacion = leerEntero(scanner);
                 Usuario usuarioValidacion = usuarioQueryServise.buscarPorIdUsuario(idValidacion);
+                while (usuarioValidacion == null) {
+                        System.out.println("Usuario no encontrado");
+                        registrar(scanner, usuarioComandService);
+                        System.out.print("Digite su id:  ");
+                        idValidacion = leerEntero(scanner);
+                        scanner.nextLine();
+                        usuarioValidacion = usuarioQueryServise.buscarPorIdUsuario(idValidacion);
+
+                }
                 if (usuarioValidacion.getRol().equals("SOLICITANTE")) {
-                        do{
+                        do {
                                 System.out.println("\n========== MENÚ PRINCIPAL ==========");
                                 System.out.println("1. Registrar usuario");
                                 System.out.println("2. Crear Solicitud");
                                 System.out.println("0. Salir");
                                 System.out.print("Seleccione una opción: ");
-                                opcion = Integer.parseInt(scanner.nextLine());
+                                opcion = leerEntero(scanner);
                                 switch (opcion) {
                                         case 1:
-                                                System.out.println("\n=== Registrar Usuario ===");
-                                                System.out.print("Nombre: ");
-                                                String nombre = scanner.nextLine();
-
-                                                System.out.print("ID: ");
-                                                int id = Integer.parseInt(scanner.nextLine());
-
-                                                System.out.print("Correo: ");
-                                                String correo = scanner.nextLine();
-
-                                                System.out.print("Rol (SOLICITANTE / FUNCIONARIO): ");
-                                                String rol = scanner.nextLine();
-
-
-                                                Usuario usuario = new Usuario.Builder()
-                                                                .id(id)
-                                                                .nombre(nombre)
-                                                                .correo(correo)
-                                                                .rol(rol.toUpperCase())
-                                                                .build();
-
-
-                                                usuarioComandService.Registrar(usuario);
+                                                registrar(scanner, usuarioComandService);
                                                 break;
 
                                         case 2:
-                                               System.out.println("\n=== Crear Solicitud ===");
-                                        System.out.print("ID del usuario: ");
-                                        int idUsuario = Integer.parseInt(scanner.nextLine());
-
-
-                                        System.out.print("ID del tipo de solicitud: ");
-                                        int idTipo = Integer.parseInt(scanner.nextLine());
-
-                                        System.out.print("Descripción de la solicitud: ");
-                                        String solicitudDescripcion = scanner.nextLine();
-
-
-                                        System.out.print("Fecha de creación (DD-MM-YYYY): ");
-                                        String fecha = scanner.nextLine();
-
-                                        System.out.print(
-                                                        "Estado (CREADA / EN_REVISION / APROBADA / RECHAZADA / RESUELTA): ");
-                                        String estado = scanner.nextLine();
-
-                                        Usuario usuarioBuscado = usuarioQueryServise.buscarPorIdUsuario(idUsuario);
-                                        TipoSolicitud tipoSolicitudBuscado = tipoSolicitudQueryServise
-                                                        .buscarPorIdTipoSolicitud(idTipo);
-
-
-                                        Solicitud solicitud = new Solicitud.Builder()
-                                                        .usuario(usuarioBuscado)
-                                                        .tipoSolicitud(tipoSolicitudBuscado)
-                                                        .descripcion(solicitudDescripcion)
-                                                        .fechaCreacion(fecha)
-                                                        .estado(estado.toUpperCase())
-                                                        .build();
-
-                                        solicitudComandServise.crearSolicitud(solicitud);
-                                        break;
+                                                crearSolicitud(scanner, solicitudComandServise, usuarioQueryServise,
+                                                                tipoSolicitudQueryServise);
+                                                break;
                                 }
                         } while (opcion != 0);
 
                 } else if (usuarioValidacion.getRol().equals("FUNCIONARIO")) {
-                    do {
-                        System.out.println("\n========== MENÚ PRINCIPAL ==========");
-                        System.out.println("1. Registrar Usuario");
-                        System.out.println("2. Crear Tipo de Solicitud");
-                        System.out.println("3. Crear Solicitud");
-                        System.out.println("4. Cambiar Estado de Solicitud");
-                        System.out.println("5. Buscar Solicitud por Estado");
-                        System.out.println("6. Reporte por Tipo de Solicitud");
-                        System.out.println("0. Salir");
-                        System.out.print("Seleccione una opción: ");
-                        opcion = Integer.parseInt(scanner.nextLine());
+                        do {
+                                System.out.println("\n========== MENÚ PRINCIPAL ==========");
+                                System.out.println("1. Registrar Usuario");
+                                System.out.println("2. Crear Tipo de Solicitud");
+                                System.out.println("3. Crear Solicitud");
+                                System.out.println("4. Cambiar Estado de Solicitud");
+                                System.out.println("5. Buscar Solicitud por Estado");
+                                System.out.println("6. Reporte por Tipo de Solicitud");
+                                System.out.println("0. Salir");
+                                System.out.print("Seleccione una opción: ");
+                                opcion = leerEntero(scanner);
 
-                        switch (opcion) {
+                                switch (opcion) {
+                                        case 1:
+                                                registrar(scanner, usuarioComandService);
+                                                break;
 
-                                case 1:
-                                        System.out.println("\n=== Registrar Usuario ===");
-                                        System.out.print("Nombre: ");
-                                        String nombre = scanner.nextLine();
+                                        case 2:
+                                                System.out.println("\n=== Crear Tipo de Solicitud ===");
+                                                System.out.print("Nombre del tipo: ");
+                                                String tipoNombre = scanner.nextLine();
 
-                                        System.out.print("ID: ");
-                                        int id = Integer.parseInt(scanner.nextLine());
+                                                System.out.print("Descripción: ");
+                                                String tipoDescripcion = scanner.nextLine();
 
-                                        System.out.print("Correo: ");
-                                        String correo = scanner.nextLine();
+                                                System.out.print("Tiempo estimado (días): ");
+                                                int tiempoEstimado = leerEntero(scanner);
 
-                                        System.out.print("Rol (SOLICITANTE / FUNCIONARIO): ");
-                                        String rol = scanner.nextLine();
+                                                TipoSolicitud tipoSolicitud = new TipoSolicitud.Builder()
+                                                                .nombre(tipoNombre)
+                                                                .descripcion(tipoDescripcion)
+                                                                .tiempoEstimadoDias(tiempoEstimado)
+                                                                .build();
+                                                tipoSolicitudComandServise.crearTipoSolicitud(tipoSolicitud);
+                                                break;
 
+                                        case 3:
+                                                crearSolicitud(scanner, solicitudComandServise, usuarioQueryServise,
+                                                                tipoSolicitudQueryServise);
+                                                break;
 
-                                        Usuario usuario = new Usuario.Builder()
-                                                        .id(id)
-                                                        .nombre(nombre)
-                                                        .correo(correo)
-                                                        .rol(rol.toUpperCase())
-                                                        .build();
+                                        case 4:
+                                                System.out.println("\n=== Cambiar Estado de Solicitud ===");
+                                                System.out.print("ID de la solicitud: ");
+                                                int idSolicitud = leerEntero(scanner);
 
+                                                System.out.print(
+                                                                "Nuevo estado (CREADA / EN_REVISION / APROBADA / RECHAZADA / RESUELTA): ");
+                                                String nuevoEstado = scanner.nextLine();
 
-                                        usuarioComandService.Registrar(usuario);
-                                        break;
+                                                solicitudComandServise.cambiarEstado(idSolicitud,
+                                                                nuevoEstado.toUpperCase());
+                                                break;
 
-                                case 2:
-                                        System.out.println("\n=== Crear Tipo de Solicitud ===");
-                                        System.out.print("Nombre del tipo: ");
-                                        String tipoNombre = scanner.nextLine();
+                                        case 5:
+                                                System.out.println("\n=== Buscar Solicitud por Estado ===");
+                                                System.out.print("Estado: ");
+                                                String estadoBuscado = scanner.nextLine();
 
-                                        System.out.print("Descripción: ");
-                                        String tipoDescripcion = scanner.nextLine();
+                                                solicitudQueryServise.buscarPorEstado(estadoBuscado.toUpperCase());
+                                                break;
 
+                                        case 6:
+                                                System.out.println("\n=== Reporte por Tipo de Solicitud ===");
+                                                System.out.print("ID del tipo de solicitud: ");
+                                                int idTipo2 = leerEntero(scanner);
 
-                                        System.out.print("Tiempo estimado (días): ");
-                                        int tiempoEstimado = Integer.parseInt(scanner.nextLine());
+                                                solicitudQueryServise.reportePorTipo(idTipo2);
+                                                break;
 
-                                        TipoSolicitud tipoSolicitud = new TipoSolicitud.Builder()
-                                                        .nombre(tipoNombre)
-                                                        .descripcion(tipoDescripcion)
-                                                        .tiempoEstimadoDias(tiempoEstimado)
-                                                        .build();
-                                        tipoSolicitudComandServise.crearTipoSolicitud(tipoSolicitud);
-                                        break;
+                                        case 0:
+                                                System.out.println("Saliendo del sistema. ¡Hasta luego!");
+                                                break;
 
-                                case 3:
-                                        System.out.println("\n=== Crear Solicitud ===");
-                                        System.out.print("ID del usuario: ");
-                                        int idUsuario = Integer.parseInt(scanner.nextLine());
+                                        default:
+                                                System.out.println("Opción no válida. Intente de nuevo.");
+                                }
 
+                        } while (opcion != 0);
 
-                                        System.out.print("ID del tipo de solicitud: ");
-                                        int idTipo = Integer.parseInt(scanner.nextLine());
+                        scanner.close();
 
-                                        System.out.print("Descripción de la solicitud: ");
-                                        String solicitudDescripcion = scanner.nextLine();
+                }
+        }
 
+        public static void registrar(Scanner scanner, UsuarioComandService usuarioComandService) {
+                System.out.println("\n=== Registrar Usuario ===");
+                System.out.print("Nombre: ");
+                String nombre = scanner.nextLine();
 
-                                        System.out.print("Fecha de creación (DD-MM-YYYY): ");
-                                        String fecha = scanner.nextLine();
+                System.out.print("ID: ");
+                int id = leerEntero(scanner);
 
-                                        System.out.print(
-                                                        "Estado (CREADA / EN_REVISION / APROBADA / RECHAZADA / RESUELTA): ");
-                                        String estado = scanner.nextLine();
+                System.out.print("Correo: ");
+                String correo = scanner.nextLine();
 
-                                        Usuario usuarioBuscado = usuarioQueryServise.buscarPorIdUsuario(idUsuario);
-                                        TipoSolicitud tipoSolicitudBuscado = tipoSolicitudQueryServise
-                                                        .buscarPorIdTipoSolicitud(idTipo);
+                System.out.print("Rol (SOLICITANTE / FUNCIONARIO): ");
+                String rol = scanner.nextLine();
 
+                Usuario usuario = new Usuario.Builder()
+                                .id(id)
+                                .nombre(nombre)
+                                .correo(correo)
+                                .rol(rol.toUpperCase())
+                                .build();
 
-                                        Solicitud solicitud = new Solicitud.Builder()
-                                                        .usuario(usuarioBuscado)
-                                                        .tipoSolicitud(tipoSolicitudBuscado)
-                                                        .descripcion(solicitudDescripcion)
-                                                        .fechaCreacion(fecha)
-                                                        .estado(estado.toUpperCase())
-                                                        .build();
-
-                                        solicitudComandServise.crearSolicitud(solicitud);
-                                        break;
-
-                                case 4:
-                                        System.out.println("\n=== Cambiar Estado de Solicitud ===");
-                                        System.out.print("ID de la solicitud: ");
-                                        int idSolicitud = Integer.parseInt(scanner.nextLine());
-
-                                        System.out.print(
-                                                        "Nuevo estado (CREADA / EN_REVISION / APROBADA / RECHAZADA / RESUELTA): ");
-                                        String nuevoEstado = scanner.nextLine();
-
-                                        solicitudComandServise.cambiarEstado(idSolicitud, nuevoEstado.toUpperCase());
-                                        break;
-
-                                case 5:
-                                        System.out.println("\n=== Buscar Solicitud por Estado ===");
-                                        System.out.print("Estado: ");
-                                        String estadoBuscado = scanner.nextLine();
-
-                                        solicitudQueryServise.buscarPorEstado(estadoBuscado.toUpperCase());
-                                        break;
-
-                                case 6:
-                                        System.out.println("\n=== Reporte por Tipo de Solicitud ===");
-                                        System.out.print("ID del tipo de solicitud: ");
-                                        int idTipo2 = Integer.parseInt(scanner.nextLine());
-
-                                        solicitudQueryServise.reportePorTipo(idTipo2);
-                                        break;
-
-                                case 0:
-                                        System.out.println("Saliendo del sistema. ¡Hasta luego!");
-                                        break;
-
-                                default:
-                                        System.out.println("Opción no válida. Intente de nuevo.");
-                        }
-
-                } while (opcion != 0);
-
-                scanner.close();
+                usuarioComandService.Registrar(usuario);
 
         }
-}
+
+        public static void crearSolicitud(Scanner scanner, SolicitudComandServise solicitudComandServise,
+                        UsuarioQueryServise usuarioQueryServise, TipoSolicitudQueryServise tipoSolicitudQueryServise) {
+                System.out.println("\n=== Crear Solicitud ===");
+                System.out.print("ID del usuario: ");
+                int idUsuario = leerEntero(scanner);
+
+                System.out.print("ID del tipo de solicitud: ");
+                int idTipo = leerEntero(scanner);
+
+                System.out.print("Descripción de la solicitud: ");
+                String solicitudDescripcion = scanner.nextLine();
+
+                System.out.print("Fecha de creación (DD-MM-YYYY): ");
+                String fecha = scanner.nextLine();
+
+                Usuario usuarioBuscado = usuarioQueryServise
+                                .buscarPorIdUsuario(idUsuario);
+                TipoSolicitud tipoSolicitudBuscado = tipoSolicitudQueryServise
+                                .buscarPorIdTipoSolicitud(idTipo);
+
+                Solicitud solicitud = new Solicitud.Builder()
+                                .usuario(usuarioBuscado)
+                                .tipoSolicitud(tipoSolicitudBuscado)
+                                .descripcion(solicitudDescripcion)
+                                .fechaCreacion(fecha)
+                                .build();
+
+                solicitudComandServise.crearSolicitud(solicitud);
+        }
+
+        // Método para validar la entrada de números enteros
+        private static int leerEntero(Scanner scanner) {
+                while (true) {
+                        try {
+                                return Integer.parseInt(scanner.nextLine());
+                        } catch (NumberFormatException e) {
+                                System.out.print("Dato inválido. Por favor, digite el tipo correcto (número entero): ");
+                        }
+                }
+        }
 }
