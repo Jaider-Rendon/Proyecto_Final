@@ -41,6 +41,7 @@ public class Main {
                 System.out.println("\n=== Bienvenido al sistema de gestión de solicitudes ===");
                 System.out.print("Digite su id:  ");
                 int idValidacion = leerEntero(scanner);
+
                 Usuario usuarioValidacion = usuarioQueryServise.buscarPorIdUsuario(idValidacion);
                 while (usuarioValidacion == null) {
                         System.out.println("Usuario no encontrado");
@@ -92,10 +93,10 @@ public class Main {
                                         case 2:
                                                 System.out.println("\n=== Crear Tipo de Solicitud ===");
                                                 System.out.print("Nombre del tipo: ");
-                                                String tipoNombre = scanner.nextLine();
+                                                String tipoNombre = leerTexto(scanner);
 
                                                 System.out.print("Descripción: ");
-                                                String tipoDescripcion = scanner.nextLine();
+                                                String tipoDescripcion = leerTexto(scanner);
 
                                                 System.out.print("Tiempo estimado (días): ");
                                                 int tiempoEstimado = leerEntero(scanner);
@@ -120,7 +121,7 @@ public class Main {
 
                                                 System.out.print(
                                                                 "Nuevo estado (CREADA / EN_REVISION / APROBADA / RECHAZADA / RESUELTA): ");
-                                                String nuevoEstado = scanner.nextLine();
+                                                String nuevoEstado = leerTexto(scanner);
 
                                                 solicitudComandServise.cambiarEstado(idSolicitud,
                                                                 nuevoEstado.toUpperCase());
@@ -129,7 +130,7 @@ public class Main {
                                         case 5:
                                                 System.out.println("\n=== Buscar Solicitud por Estado ===");
                                                 System.out.print("Estado: ");
-                                                String estadoBuscado = scanner.nextLine();
+                                                String estadoBuscado = leerTexto(scanner);
 
                                                 solicitudQueryServise.buscarPorEstado(estadoBuscado.toUpperCase());
                                                 break;
@@ -160,7 +161,7 @@ public class Main {
         public static void registrar(Scanner scanner, UsuarioComandService usuarioComandService) {
                 System.out.println("\n=== Registrar Usuario ===");
                 System.out.print("Nombre: ");
-                String nombre = scanner.nextLine();
+                String nombre = leerTexto(scanner);
 
                 System.out.print("ID: ");
                 int id = leerEntero(scanner);
@@ -169,7 +170,7 @@ public class Main {
                 String correo = scanner.nextLine();
 
                 System.out.print("Rol (SOLICITANTE / FUNCIONARIO): ");
-                String rol = scanner.nextLine();
+                String rol = leerTexto(scanner);
 
                 Usuario usuario = new Usuario.Builder()
                                 .id(id)
@@ -192,7 +193,7 @@ public class Main {
                 int idTipo = leerEntero(scanner);
 
                 System.out.print("Descripción de la solicitud: ");
-                String solicitudDescripcion = scanner.nextLine();
+                String solicitudDescripcion = leerTexto(scanner);
 
                 System.out.print("Fecha de creación (DD-MM-YYYY): ");
                 String fecha = scanner.nextLine();
@@ -212,13 +213,23 @@ public class Main {
                 solicitudComandServise.crearSolicitud(solicitud);
         }
 
-        // Método para validar la entrada de números enteros
         private static int leerEntero(Scanner scanner) {
                 while (true) {
                         try {
                                 return Integer.parseInt(scanner.nextLine());
                         } catch (NumberFormatException e) {
                                 System.out.print("Dato inválido. Por favor, digite el tipo correcto (número entero): ");
+                        }
+
+                }
+        }
+
+        private static String leerTexto(Scanner scanner) {
+                while (true) {
+                        try {
+                                return scanner.nextLine();
+                        } catch (Exception e) {
+                                System.out.print("Dato inválido. Por favor, digite el tipo correcto (texto): ");
                         }
                 }
         }
