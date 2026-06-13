@@ -120,7 +120,7 @@ public class Main {
 
                                                 System.out.print(
                                                                 "Nuevo estado (CREADA / EN_REVISION / APROBADA / RECHAZADA / RESUELTA): ");
-                                                String nuevoEstado = scanner.nextLine();
+                                                String nuevoEstado = leerTexto(scanner);
 
                                                 solicitudComandServise.cambiarEstado(idSolicitud,
                                                                 nuevoEstado.toUpperCase());
@@ -129,7 +129,7 @@ public class Main {
                                         case 5:
                                                 System.out.println("\n=== Buscar Solicitud por Estado ===");
                                                 System.out.print("Estado: ");
-                                                String estadoBuscado = scanner.nextLine();
+                                                String estadoBuscado = leerTexto(scanner);
 
                                                 solicitudQueryServise.buscarPorEstado(estadoBuscado.toUpperCase());
                                                 break;
@@ -168,18 +168,25 @@ public class Main {
                 System.out.print("Correo: ");
                 String correo = scanner.nextLine();
 
-                System.out.print("Rol (SOLICITANTE / FUNCIONARIO): ");
-                String rol = leerTexto(scanner);
+                String rol;
+                while (true) {
+                        System.out.print("Rol (SOLICITANTE / FUNCIONARIO): ");
+                        rol = scanner.nextLine().trim().toUpperCase();
+                        if (rol.equals("SOLICITANTE") || rol.equals("FUNCIONARIO")) {
+                                break;
+                        } else {
+                                System.out.println("Dato inválido. Solo se permite SOLICITANTE o FUNCIONARIO.");
+                        }
+                }
 
                 Usuario usuario = new Usuario.Builder()
                                 .id(id)
                                 .nombre(nombre)
                                 .correo(correo)
-                                .rol(rol.toUpperCase())
+                                .rol(rol)
                                 .build();
 
                 usuarioComandService.Registrar(usuario);
-
         }
 
         public static void crearSolicitud(Scanner scanner, SolicitudComandServise solicitudComandServise,
@@ -225,7 +232,6 @@ public class Main {
         private static String leerTexto(Scanner scanner) {
                 while (true) {
                         String entrada = scanner.nextLine();
-                        // Validamos que solo contenga letras (mayúsculas o minúsculas)
                         if (entrada.matches("[a-zA-Z]+")) {
                                 return entrada;
                         } else {
