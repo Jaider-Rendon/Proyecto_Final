@@ -36,17 +36,15 @@ public class Main {
                 SolicitudRepository solicitudRepository = new SolicitudRepositoryPostgrees();
                 SolicitudComandServise solicitudComandServise = new SolicitudComandServise(solicitudRepository);
                 SolicitudQueryServise solicitudQueryServise = new SolicitudQueryServise(solicitudRepository);
-                boolean usuarioLogueado = false;
 
                 int opcion;
                 System.out.println("\n=== Bienvenido al sistema de gestión de solicitudes ===");
                 System.out.print("Digite su id:  ");
                 int idValidacion = leerEntero(scanner);
-
                 Usuario usuarioValidacion = usuarioQueryServise.buscarPorIdUsuario(idValidacion);
                 while (usuarioValidacion == null) {
                         System.out.println("Usuario no encontrado");
-                        registrar(scanner, usuarioComandService, usuarioLogueado);
+                        registrar(scanner, usuarioComandService);
                         System.out.print("Digite su id:  ");
                         idValidacion = leerEntero(scanner);
                         scanner.nextLine();
@@ -62,10 +60,8 @@ public class Main {
                                 System.out.print("Seleccione una opción: ");
                                 opcion = leerEntero(scanner);
                                 switch (opcion) {
-
                                         case 1:
-                                                usuarioLogueado = true;
-                                                registrar(scanner, usuarioComandService, usuarioLogueado);
+                                                registrar(scanner, usuarioComandService);
                                                 break;
 
                                         case 2:
@@ -90,22 +86,22 @@ public class Main {
 
                                 switch (opcion) {
                                         case 1:
-                                                registrar(scanner, usuarioComandService, usuarioLogueado);
+                                                registrar(scanner, usuarioComandService);
                                                 break;
 
                                         case 2:
                                                 System.out.println("\n=== Crear Tipo de Solicitud ===");
                                                 System.out.print("Nombre del tipo: ");
-                                                String tipoNombre = leerTexto(scanner);
+                                                String tipoNombre = scanner.nextLine();
 
                                                 System.out.print("Descripción: ");
-                                                String tipoDescripcion = leerTexto(scanner);
+                                                String tipoDescripcion = scanner.nextLine();
 
                                                 System.out.print("Tiempo estimado (días): ");
                                                 int tiempoEstimado = leerEntero(scanner);
 
                                                 TipoSolicitud tipoSolicitud = new TipoSolicitud.Builder()
-                                                                .nombre(tipoNombre.toUpperCase())
+                                                                .nombre(tipoNombre)
                                                                 .descripcion(tipoDescripcion)
                                                                 .tiempoEstimadoDias(tiempoEstimado)
                                                                 .build();
@@ -124,7 +120,7 @@ public class Main {
 
                                                 System.out.print(
                                                                 "Nuevo estado (CREADA / EN_REVISION / APROBADA / RECHAZADA / RESUELTA): ");
-                                                String nuevoEstado = leerTexto(scanner);
+                                                String nuevoEstado = scanner.nextLine();
 
                                                 solicitudComandServise.cambiarEstado(idSolicitud,
                                                                 nuevoEstado.toUpperCase());
@@ -133,7 +129,7 @@ public class Main {
                                         case 5:
                                                 System.out.println("\n=== Buscar Solicitud por Estado ===");
                                                 System.out.print("Estado: ");
-                                                String estadoBuscado = leerTexto(scanner);
+                                                String estadoBuscado = scanner.nextLine();
 
                                                 solicitudQueryServise.buscarPorEstado(estadoBuscado.toUpperCase());
                                                 break;
@@ -161,24 +157,19 @@ public class Main {
                 }
         }
 
-        public static void registrar(Scanner scanner, UsuarioComandService usuarioComandService,
-                        boolean usuarioLogueado) {
-                String rol;
+        public static void registrar(Scanner scanner, UsuarioComandService usuarioComandService) {
                 System.out.println("\n=== Registrar Usuario ===");
                 System.out.print("Nombre: ");
-                String nombre = leerTexto(scanner);
+                String nombre = scanner.nextLine();
 
                 System.out.print("ID: ");
                 int id = leerEntero(scanner);
 
                 System.out.print("Correo: ");
                 String correo = scanner.nextLine();
-                if (usuarioLogueado) {
-                        rol = "SOLICITANTE";
-                } else {
-                        System.out.print("Rol (SOLICITANTE / FUNCIONARIO): ");
-                        rol = leerTexto(scanner);
-                }
+
+                System.out.print("Rol (SOLICITANTE / FUNCIONARIO): ");
+                String rol = leerTexto(scanner);
 
                 Usuario usuario = new Usuario.Builder()
                                 .id(id)
@@ -206,8 +197,10 @@ public class Main {
                 System.out.print("Fecha de creación (DD-MM-YYYY): ");
                 String fecha = scanner.nextLine();
 
-                Usuario usuarioBuscado = usuarioQueryServise.buscarPorIdUsuario(idUsuario);
-                TipoSolicitud tipoSolicitudBuscado = tipoSolicitudQueryServise.buscarPorIdTipoSolicitud(idTipo);
+                Usuario usuarioBuscado = usuarioQueryServise
+                                .buscarPorIdUsuario(idUsuario);
+                TipoSolicitud tipoSolicitudBuscado = tipoSolicitudQueryServise
+                                .buscarPorIdTipoSolicitud(idTipo);
 
                 Solicitud solicitud = new Solicitud.Builder()
                                 .usuario(usuarioBuscado)
@@ -226,18 +219,19 @@ public class Main {
                         } catch (NumberFormatException e) {
                                 System.out.print("Dato inválido. Por favor, digite el tipo correcto (número entero): ");
                         }
-
                 }
         }
 
         private static String leerTexto(Scanner scanner) {
                 while (true) {
-                        String texto = scanner.nextLine();
-                        if (texto.matches("^[a-zA-ZáéíóúÁÉÍÓÚñÑ\\s]+$")) {
-                                return texto;
+                        String entrada = scanner.nextLine();
+                        // Validamos que solo contenga letras (mayúsculas o minúsculas)
+                        if (entrada.matches("[a-zA-Z]+")) {
+                                return entrada;
                         } else {
-                                System.out.print("Dato inválido. Por favor, ingrese solo letras: ");
+                                System.out.print("Dato inválido. Por favor, digite solo letras: ");
                         }
                 }
         }
+
 }
