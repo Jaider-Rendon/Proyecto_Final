@@ -10,8 +10,8 @@ public class NotificacionesComandServise {
         this.notificionesRepository = notificionesRepository;
     }
 
-    public void enviarNotificacion(String tipo) {
-        notificionesRepository.enviarNotificacion(tipo);
+    public void enviarNotificacion(String tipo, int id) {
+        notificionesRepository.enviarNotificacion(tipo, id);
     }
 
     public void enviarNotificacion2(int idSolicitud, String tipo, String estado) {

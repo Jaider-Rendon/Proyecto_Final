@@ -38,13 +38,14 @@ public class Main {
                 SolicitudQueryServise solicitudQueryServise = new SolicitudQueryServise(solicitudRepository);
 
                 int opcion;
+                boolean validacion = false;
                 System.out.println("\n=== Bienvenido al sistema de gestión de solicitudes ===");
                 System.out.print("Digite su id:  ");
                 int idValidacion = leerEntero(scanner);
                 Usuario usuarioValidacion = usuarioQueryServise.buscarPorIdUsuario(idValidacion);
                 while (usuarioValidacion == null) {
                         System.out.println("Usuario no encontrado");
-                        registrar(scanner, usuarioComandService);
+                        registrar(scanner, usuarioComandService, validacion);
                         System.out.print("Digite su id:  ");
                         idValidacion = leerEntero(scanner);
                         scanner.nextLine();
@@ -61,13 +62,21 @@ public class Main {
                                 opcion = leerEntero(scanner);
                                 switch (opcion) {
                                         case 1:
-                                                registrar(scanner, usuarioComandService);
+                                                validacion = true;
+                                                registrar(scanner, usuarioComandService, validacion);
                                                 break;
 
                                         case 2:
                                                 crearSolicitud(scanner, solicitudComandServise, usuarioQueryServise,
                                                                 tipoSolicitudQueryServise);
                                                 break;
+
+                                        case 0:
+                                                System.out.println("Saliendo del sistema. ¡Hasta luego!");
+                                                break;
+
+                                        default:
+                                                System.out.println("Opción no válida. Intente de nuevo.");
                                 }
                         } while (opcion != 0);
 
@@ -86,7 +95,7 @@ public class Main {
 
                                 switch (opcion) {
                                         case 1:
-                                                registrar(scanner, usuarioComandService);
+                                                registrar(scanner, usuarioComandService, validacion);
                                                 break;
 
                                         case 2:
@@ -129,7 +138,7 @@ public class Main {
                                         case 5:
                                                 System.out.println("\n=== Buscar Solicitud por Estado ===");
                                                 System.out.print("Estado: ");
-                                                String estadoBuscado = leerTexto(scanner);
+                                                String estadoBuscado = scanner.nextLine();
 
                                                 solicitudQueryServise.buscarPorEstado(estadoBuscado.toUpperCase());
                                                 break;
@@ -157,7 +166,7 @@ public class Main {
                 }
         }
 
-        public static void registrar(Scanner scanner, UsuarioComandService usuarioComandService) {
+        public static void registrar(Scanner scanner, UsuarioComandService usuarioComandService, boolean validacion) {
                 System.out.println("\n=== Registrar Usuario ===");
                 System.out.print("Nombre: ");
                 String nombre = scanner.nextLine();
@@ -169,14 +178,10 @@ public class Main {
                 String correo = scanner.nextLine();
 
                 String rol;
-                while (true) {
-                        System.out.print("Rol (SOLICITANTE / FUNCIONARIO): ");
-                        rol = scanner.nextLine().trim().toUpperCase();
-                        if (rol.equals("SOLICITANTE") || rol.equals("FUNCIONARIO")) {
-                                break;
-                        } else {
-                                System.out.println("Dato inválido. Solo se permite SOLICITANTE o FUNCIONARIO.");
-                        }
+                if (validacion == true) {
+                        rol = "SOLICITANTE";
+                } else {
+                        rol = validarRol(scanner);
                 }
 
                 Usuario usuario = new Usuario.Builder()
@@ -232,10 +237,22 @@ public class Main {
         private static String leerTexto(Scanner scanner) {
                 while (true) {
                         String entrada = scanner.nextLine();
-                        if (entrada.matches("[a-zA-Z]+")) {
+                        if (entrada.matches("[a-zA-Z_]+")) {
                                 return entrada;
                         } else {
                                 System.out.print("Dato inválido. Por favor, digite solo letras: ");
+                        }
+                }
+        }
+
+        private static String validarRol(Scanner scanner) {
+                while (true) {
+                        System.out.print("Rol (SOLICITANTE / FUNCIONARIO): ");
+                        String rol = scanner.nextLine().trim().toUpperCase();
+                        if (rol.equals("SOLICITANTE") || rol.equals("FUNCIONARIO")) {
+                                return rol;
+                        } else {
+                                System.out.println("Dato inválido. Solo se permite SOLICITANTE o FUNCIONARIO.");
                         }
                 }
         }
