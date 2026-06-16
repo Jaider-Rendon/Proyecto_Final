@@ -14,7 +14,8 @@ public class UsuarioRepositoryPotgrets implements UsuarioRepositorio {
         String sql = "INSERT INTO usuario(id,nombre, correo, rol) VALUES (?, ?, ?, ?)";
 
         try (Connection connetConnection = ConexionSQL.obtenerConexion();
-                PreparedStatement statement = connetConnection.prepareStatement(sql)) {
+                PreparedStatement statement = connetConnection.prepareStatement(sql,
+                        java.sql.Statement.RETURN_GENERATED_KEYS)) {
             if (buscarPorIdUsuario(usuario.getId()) != null) {
                 throw new IllegalArgumentException("El usuario ya existe");
             }
@@ -23,11 +24,20 @@ public class UsuarioRepositoryPotgrets implements UsuarioRepositorio {
             statement.setString(3, usuario.getCorreo());
             statement.setString(4, usuario.getRol());
             statement.executeUpdate();
-            NotificionesRepository notificionesRepository = new NotificacionRepositoryPostgrees();
-            NotificacionesComandServise notificacionesComandServise = new NotificacionesComandServise(
-                    notificionesRepository);
-            notificacionesComandServise.enviarNotificacion("USUARIO");
 
+            int idGenerado = 0;
+            try (java.sql.ResultSet generatedKeys = statement.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    idGenerado = generatedKeys.getInt(1);
+                }
+            }
+
+            if (idGenerado > 0) {
+                NotificionesRepository notificionesRepository = new NotificacionRepositoryPostgrees();
+                NotificacionesComandServise notificacionesComandServise = new NotificacionesComandServise(
+                        notificionesRepository);
+                notificacionesComandServise.enviarNotificacion("USUARIO", idGenerado);
+            }
         } catch (Exception e) {
             System.out.println("Error al guardar usuario: " + e.getMessage());
         }

@@ -7,8 +7,10 @@ import java.time.LocalDateTime;
 public class NotificacionRepositoryPostgrees implements NotificionesRepository {
 
     @Override
-    public void enviarNotificacion(String tipo) {
-        if (tipo.equals("USUARIO") || tipo.equals("TIPOSOLICITUD")) {
+    public void enviarNotificacion(String tipo, int id) {
+        if (tipo.equals("TIPOSOLICITUD")) {
+            System.out.println("Se registro correctamente tu " + tipo + " el id es: " + id);
+        } else if (tipo.equals("USUARIO")) {
             System.out.println("Se registro correctamente tu " + tipo);
         }
     }
@@ -24,7 +26,7 @@ public class NotificacionRepositoryPostgrees implements NotificionesRepository {
                 statement.setString(3, LocalDateTime.now().toString());
                 statement.setString(4, estado);
                 statement.executeUpdate();
-                System.out.println("Solicitud creada exitosamente");
+                System.out.println("Solicitud creada exitosamente" + ", el id de la solicitud es: " + idSolicitud);
 
             } else if (tipo.equals("S2")) {
                 statement.setInt(1, idSolicitud);

@@ -34,7 +34,8 @@ public class TipoSolicitudRepositoryPostgrees implements TipoSolicitudRepository
         String sql = "INSERT INTO tipoSolicitud(nombretipo, descripcion, tiempoEstimadoDias) VALUES (?, ?, ?)";
 
         try (Connection connetConnection = ConexionSQL.obtenerConexion();
-                PreparedStatement statement = connetConnection.prepareStatement(sql)) {
+                PreparedStatement statement = connetConnection.prepareStatement(sql,
+                        java.sql.Statement.RETURN_GENERATED_KEYS)) {
 
             if (buscarPorNombreTipoSolicitud(tipoSolicitud.getNombre()) == true) {
                 throw new IllegalArgumentException("El tipo de solicitud " + tipoSolicitud.getNombre() + " ya existe");
@@ -44,10 +45,19 @@ public class TipoSolicitudRepositoryPostgrees implements TipoSolicitudRepository
             statement.setString(2, tipoSolicitud.getDescripcion());
             statement.setInt(3, tipoSolicitud.getTiempoEstimadoDias());
             statement.executeUpdate();
-            NotificionesRepository notificionesRepository = new NotificacionRepositoryPostgrees();
-            NotificacionesComandServise notificacionesComandServise = new NotificacionesComandServise(
-                    notificionesRepository);
-            notificacionesComandServise.enviarNotificacion("TIPOSOLICITUD");
+            int idGenerado = 0;
+            try (java.sql.ResultSet generatedKeys = statement.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    idGenerado = generatedKeys.getInt(1);
+                }
+            }
+
+            if (idGenerado > 0) {
+                NotificionesRepository notificionesRepository = new NotificacionRepositoryPostgrees();
+                NotificacionesComandServise notificacionesComandServise = new NotificacionesComandServise(
+                        notificionesRepository);
+                notificacionesComandServise.enviarNotificacion("TIPOSOLICITUD", idGenerado);
+            }
 
         } catch (Exception e) {
             System.out.println("Error al crear tipo de solicitud: " + e.getMessage());
