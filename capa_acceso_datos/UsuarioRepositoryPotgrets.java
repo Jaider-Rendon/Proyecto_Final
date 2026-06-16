@@ -25,19 +25,11 @@ public class UsuarioRepositoryPotgrets implements UsuarioRepositorio {
             statement.setString(4, usuario.getRol());
             statement.executeUpdate();
 
-            int idGenerado = 0;
-            try (java.sql.ResultSet generatedKeys = statement.getGeneratedKeys()) {
-                if (generatedKeys.next()) {
-                    idGenerado = generatedKeys.getInt(1);
-                }
-            }
+            NotificionesRepository notificionesRepository = new NotificacionRepositoryPostgrees();
+            NotificacionesComandServise notificacionesComandServise = new NotificacionesComandServise(
+                    notificionesRepository);
+            notificacionesComandServise.enviarNotificacion("USUARIO", usuario.getId());
 
-            if (idGenerado > 0) {
-                NotificionesRepository notificionesRepository = new NotificacionRepositoryPostgrees();
-                NotificacionesComandServise notificacionesComandServise = new NotificacionesComandServise(
-                        notificionesRepository);
-                notificacionesComandServise.enviarNotificacion("USUARIO", idGenerado);
-            }
         } catch (Exception e) {
             System.out.println("Error al guardar usuario: " + e.getMessage());
         }
