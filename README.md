@@ -32,6 +32,8 @@ git clone https://github.com/Jaider-Rendon/Proyecto_Final.git
 Asegúrate de tener instalado Java JDK.
 Configura tu base de datos PostgreSQL con las tablas necesarias (Usuarios, Tipos de Solicitud, Solicitudes)
 # Script para pegar en tu Bases de Datos 
+
+Create data base proyectoFinal;
 -- 1. Crear tabla Usuario
 CREATE TABLE usuario (
     id INTEGER PRIMARY KEY,
