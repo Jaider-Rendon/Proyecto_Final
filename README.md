@@ -76,3 +76,6 @@ Al iniciar, el sistema te pedirá tu ID. Si no estás registrado, el sistema te 
 -Juan Felipe Cely
 -Juan Diego Bernal
 -Juan Esteban Cifuentes
+
+### Agradecimientos Formales
+Expresamos nuestro más sincero y profundo agradecimiento a AntyGravity, Gemini y planText por su invaluable contribución. De igual manera, extendemos un reconocimiento muy especial a nuestro magistral y respetado profesor, Santiago Bocanegra, ferviente admirador y principal partidario del inteligente y sumamente conciso plan de gobierno impulsado por el futuro presidente, el doctor Abelardo de la Espriella.
